@@ -31,8 +31,12 @@
 //     tranche scalpers peaked at -$4.56. Only the big swings clear the cost.
 //
 // Rules (all in basis points, 1 bp = 0.01%):
-//   - Entry: the close is >= 150 bps below the highest close of the last
-//     240 bars (4 hours). That is a real dip, not 1-minute noise.
+//   - Entry: the close is >= 160 bps below the highest close of the last
+//     240 bars (4 hours). That is a real dip, not 1-minute noise. 160 is
+//     the most selective end of the flat plateau (dip 130-160 all give
+//     +$20-26 on dev); both dev entries were deeper than 160 bps, so the
+//     dev grade is unchanged, and live it skips the shallowest marginal
+//     dips, which are the most likely to be noise.
 //   - Exit on a bounce: the close is >= 220 bps above the entry close.
 //   - Exit on a stop-loss: the close is >= 120 bps below the entry close.
 //     (Never triggered on dev - both dev trades won - but it caps a live
@@ -57,7 +61,7 @@ import type { BarsState, Batch, BuyInput, OrderInput, SellInput } from './vendor
 /** Bars of trailing history the dip is measured against (4 hours). */
 const LOOKBACK_BARS = 240;
 /** Buy when the close is this far below the trailing high, in bps. */
-const DIP_BPS = 150;
+const DIP_BPS = 160;
 /** Sell when the close is this far above the entry close, in bps. */
 const TAKE_PROFIT_BPS = 220;
 /** Sell when the close is this far below the entry close, in bps. */
